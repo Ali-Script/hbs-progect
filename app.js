@@ -16,16 +16,31 @@ app.set('views', path.join(__dirname))
 //Defult Route ^
 
 const users = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" }
+    { id: 1, name: "John Doe", password: "123" },
+    { id: 2, name: "Jane Smith", password: "456" }
 
 ]
 
 app.get("/", async (req, res) => {
     res.render("views/index.hbs", { users })
 })
-app.post("/", async (req, res) => {
-    res.render("views/index.hbs")
+
+app.post("/sub", async (req, res) => {
+
+
+    const result = users.some(data => {
+
+        if (data.password == req.body.password && data.name == req.body.username) {
+
+            res.render("views/home.hbs", { data })
+            return true;
+        }
+        return false;
+    })
+
+    if (!result) return res.render("views/404.hbs")
+
+
 })
 
 // Manual Route^
